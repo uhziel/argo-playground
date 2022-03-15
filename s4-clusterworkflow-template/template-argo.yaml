@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterWorkflowTemplate
+metadata:
+  name: helloworld-tmpl
+spec:
+  entrypoint: echo
+  arguments:
+    parameters:
+      - name: msg
+        value: "hello, world"
+  templates:
+    - name: echo
+      inputs:
+        parameters:
+          - name: msg
+      container:
+        image: busybox
+        command:
+          - "echo"
+        args:
+          - "{{inputs.parameters.msg}}"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
