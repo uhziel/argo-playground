@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: s5-cronworkflow
+spec:
+  schedule: "*/2 * * * *"
+  workflowSpec:
+    entrypoint: main
+    templates:
+      - name: main
+        steps:
+          - - name: echo-main
+              template: echo
+              arguments:
+                parameters:
+                  - name: msg
+                    value: hello, cronworkflow
+      - name: echo
+        inputs:
+          parameters:
+            - name: msg
+        container:
+          image: busybox
+          command:
+            - echo
+          args:
+            - "{{inputs.parameters.msg}}"
