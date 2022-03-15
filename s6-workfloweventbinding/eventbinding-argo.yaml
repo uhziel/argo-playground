@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowEventBinding
+metadata:
+  name: echo-eventbinding
+spec:
+  event:
+    selector: payload.message != "" && metadata["x-argo-e2e"] == ["true"] && discriminator == "-"
+  submit:
+    workflowTemplateRef:
+      name: s6-workfloweventbinding-tmpl
+    arguments:
+      parameters:
+        - name: msg
+          valueFrom:
+            event: payload.message
