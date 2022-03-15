@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: helloworld
+spec:
+  entrypoint: helloworld
+  templates:
+    - name: helloworld
+      container:
+        image: busybox
+        command:
+          - "echo"
+        args:
+          - "hello world"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+
+# ± |main S:1 ?:1 ✗| → argo -n argo submit --watch s1-helloworld-wf.yaml
+# Name:                helloworld5fndn
+# Namespace:           argo
+# ServiceAccount:      default
+# Status:              Pending
+# Created:             Tue Mar 15 13:22:43 +0800 (now)
+# Progress:
+
+# This workflow does not have security context set. You can run your workflow pods more securely by setting it.
+# Learn more at https://argoproj.github.io/argo-workflows/workflow-pod-security-context/
+#  2022-03-15 13:25:37 ⌚  zhulei-fedora in ~/workspace/argo-playground
+# ± |main S:1 ?:1 ✗| → argo -n argo watch @latest
+# Name:                helloworld5fndn
+# Namespace:           argo
+# ServiceAccount:      default
+# Status:              Succeeded
+# Conditions:
+#  PodRunning          False
+#  Completed           True
+# Created:             Tue Mar 15 13:22:43 +0800 (3 minutes ago)
+# Started:             Tue Mar 15 13:23:51 +0800 (1 minute ago)
+# Finished:            Tue Mar 15 13:25:45 +0800 (2 seconds ago)
+# Duration:            1 minute 54 seconds
+# Progress:            1/1
+# ResourcesDuration:   19s*(1 cpu),13s*(100Mi memory)
+
+# STEP                TEMPLATE    PODNAME          DURATION  MESSAGE
+#  ✔ helloworld5fndn  helloworld  helloworld5fndn  1m
+
+# This workflow does not have security context set. You can run your workflow pods more securely by setting it.
+# Learn more at https://argoproj.github.io/argo-workflows/workflow-pod-security-context/
+
+#  2022-03-15 13:25:47 ⌚  zhulei-fedora in ~/workspace/argo-playground
+# ± |main S:1 ?:1 ✗| → argo -n argo logs @latest
+# helloworld5fndn: time="2022-03-15T05:25:35.167Z" level=info msg="capturing logs" argo=true
+# helloworld5fndn: hello world
