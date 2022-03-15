@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: s4-clusterworkflow-template
+  generateName: s4-clusterworkflow-template-
 spec:
   workflowTemplateRef:
     name: helloworld-tmpl

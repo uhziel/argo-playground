@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: helloworld
+  generateName: helloworld-
 spec:
   entrypoint: helloworld
   templates:
