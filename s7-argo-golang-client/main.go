@@ -16,7 +16,7 @@ func main() {
 	serviceClient := apiClient.NewWorkflowServiceClient()
 	wf := wfv1.Workflow{
 		ObjectMeta: metav1.ObjectMeta{
-			GenerateName: "s7-golang-client-",
+			GenerateName: "s7-argo-golang-client-",
 		},
 		Spec: wfv1.WorkflowSpec{
 			Entrypoint: "helloworld",
