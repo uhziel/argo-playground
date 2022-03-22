@@ -1,0 +1,31 @@
+# steps 中的 template 也支持被替换，这样可以生成动态的 template 效果
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: s9-template-name-variable-
+spec:
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: tmpl-name
+        value: helloworld
+  templates:
+    - name: main
+      inputs:
+        parameters:
+          - name: tmpl-name
+      steps:
+        - - name: "{{inputs.parameters.tmpl-name}}"
+            template: "{{inputs.parameters.tmpl-name}}"
+    - name: helloworld
+      container:
+        image: busybox
+        command:
+          - "echo"
+        args:
+          - "hello world"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi

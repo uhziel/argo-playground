@@ -1,0 +1,44 @@
+# 再经过一层跳转后就不好使用了
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: s10-template-name-variable2-
+spec:
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: tmpl-name
+        value: helloworld
+  templates:
+    - name: main
+      inputs:
+        parameters:
+          - name: tmpl-name
+      steps:
+        - - name: dynamic-1
+            template: dynamic
+            arguments:
+              parameters:
+                - name: tmpl-name
+                  value: "{{inputs.parameters.tmpl-name}}" # "helloworld" 也不好使。
+
+    - name: dynamic
+      inputs:
+        parameters:
+          - name: tmpl-name
+      steps:
+        - - name: "{{inputs.parameters.tmpl-name}}"
+            template: "{{inputs.parameters.tmpl-name}}"
+
+    - name: helloworld
+      container:
+        image: busybox
+        command:
+          - "echo"
+        args:
+          - "hello world"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
